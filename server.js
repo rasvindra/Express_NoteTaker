@@ -2,7 +2,8 @@
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
-const uuid =require("./helpers/uuid")
+const uuid =require("./helpers/uuid");
+const { allowedNodeEnvironmentFlags } = require("process");
 
 
 // Setup for Backend- cookie cutter
@@ -30,8 +31,17 @@ let notes = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
 res.json(notes);
 });
 
-// NEED POST AND DELETE ROUTES STILL
-
+// POST ROUTE
+app.post("/api/notes", (req,res) => {
+    let notes = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
+    let addnote = req.body;
+    addnote.title = req.body.title;
+    addnote.text = req.body.text;
+    addnote.id = uuid();
+    let updatedNotes = [...notes,addnote];
+    fs.writeFileSync("./db/db.json", JSON.stringify(updatedNotes));
+    res.json(updatedNotes)
+});
 
 // sets up backend to listen for any requests to local PORT
 app.listen(PORT, () =>
