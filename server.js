@@ -30,6 +30,7 @@ let notes = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
 res.json(notes);
 });
 
+// NEED POST AND DELETE ROUTES STILL
 
 
 // sets up backend to listen for any requests to local PORT
