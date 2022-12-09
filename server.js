@@ -35,8 +35,8 @@ res.json(notes);
 app.post("/api/notes", (req,res) => {
     let notes = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
     let addnote = req.body;
-    addnote.title = req.body.title;
-    addnote.text = req.body.text;
+    // addnote.title = req.body.title;
+    // addnote.text = req.body.text;
     addnote.id = uuid();
     let updatedNotes = [...notes,addnote];
     fs.writeFileSync("./db/db.json", JSON.stringify(updatedNotes));
