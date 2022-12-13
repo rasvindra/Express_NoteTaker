@@ -43,6 +43,23 @@ app.post("/api/notes", (req,res) => {
     res.json(updatedNotes)
 });
 
+// DELETE ROUTE
+app.delete("/api/notes/:id",(req,res)=>{
+let notes = JSON.parse(fs.readFileSync("./db/db.json","utf8"));
+let deleteNote = req.params.id;
+// uses findindex to locate matching ID
+let deleteIndex = notes.findIndex(function(position){
+    return position.id===deleteNote
+});
+// takes returned "matching" ID and removes that positon in the db
+notes.splice(deleteIndex,1);
+
+// rewrites db with removed index position
+fs.writeFileSync("./db/db.json", JSON.stringify(notes));
+res.json(notes);
+});
+
+
 // sets up backend to listen for any requests to local PORT
 app.listen(PORT, () =>
 console.log(`App is listening at hhtp://localhost:${PORT}`)
